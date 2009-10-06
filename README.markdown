@@ -13,8 +13,5 @@ User won't be able to select combination that doesn't have corresponding variant
 
 == TODO
 
-- actually create variants based on seected option values
-- when creating new variant from scratch, set price by default
-- warnings and instructions
 - gracefull handling non-js users.
 - test under other browsers then FF

@@ -17,7 +17,7 @@
         <ul><% option_type.option_values.each_with_index do |option_value, i| %>
             <li>
               <%= radio_button_tag(
-                "products[#{@product.id}][option_values][#{option_type.id}]",
+                "option_values[#{@product.id}][#{option_type.id}]",
                 option_value.id,
                 option_value == default_value,
                 :disabled => !possible_combination?(ov_combinations, selected_values+[option_value.id]),
@@ -44,6 +44,9 @@
 
   // okey let's start. this little gem finds if there is a possible combination
   // that begining matches values. returns tru if there's at least one match.
+  //
+  // WARNING this method has equivalent on ruby side (possible_combinations? helper)
+  // If you plan to change it, make sure they both behave in the same way
   function possible_combination(values){
     var any_match = false;
     jQuery.each(ov_combinations, function(i, combination){

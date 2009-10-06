@@ -17,13 +17,12 @@ module VariantSelection
   end
 
   # checks if there's a possible combination
+  #
+  # WARNING! This helper has equivalent on javascript side.
+  # If you plan to change it, make sure they both behave in the same way
   def possible_combination?(all_combinations, values)
     all_combinations.any?{|combination|
       values.enum_for(:each_with_index).all?{|v, i| combination[i] == v}
     }
-  end
-
-  def find_variant_with_option_values(option_values)
-    
   end
 end
