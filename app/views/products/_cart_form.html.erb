@@ -6,14 +6,15 @@
       Base price:
       <span class="price selling"><%= product_price(@product) %></span>
     </div>
-    <div class="modified_price">
-      Current price:
-      <span class="price selling"><%= product_price(@product.default_variant) %></span>
-    </div>
-
+    <% if @product.default_variant %>
+      <div class="modified_price">
+        Current price:
+        <span class="price selling"><%= product_price(@product.default_variant) %></span>
+      </div>
+    <% end %>
   </div>
   <div id="product-variants">
-    <% default_values = @product.default_variant.option_values.group_by{|ov| ov.option_type_id} %>
+    <% default_values = @product.default_variant.option_values.group_by{|ov| ov.option_type_id} if @product.default_variant %>
     <% selected_values = [] %>
     <% @product.option_types.each do |option_type|
       default_value = default_values[option_type.id].first;
@@ -42,7 +43,8 @@
     end %>
   </div>
 
-  <%= text_field_tag('quantity', 1, :class => "title", :size => 3) %>
+  <%= text_field_tag (@product.has_variants? ? :quantity : "variants[#{@product.master.id}]"),
+    1, :class => "title", :size => 3 %>
   <button type='submit' class='large primary'>
     <%= image_tag('/images/add-to-cart.png') + t('add_to_cart') %>
   </button>
