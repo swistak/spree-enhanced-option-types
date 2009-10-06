@@ -1,11 +1,17 @@
 <% ov_combinations = options_values_combinations(@product) %>
 
 <% form_for :order, :url => orders_url do |f| %>
-  <p class="prices">
-    <%= t("price") %>
-    <br />
-    <span class="price selling"><%= product_price(@product) %></span>
-  </p>
+  <div class="prices">
+    <div class="original_price">
+      Base price:
+      <span class="price selling"><%= product_price(@product) %></span>
+    </div>
+    <div class="modified_price">
+      Current price:
+      <span class="price selling"><%= product_price(@product.default_variant) %></span>
+    </div>
+
+  </div>
   <div id="product-variants">
     <% default_values = @product.default_variant.option_values.group_by{|ov| ov.option_type_id} %>
     <% selected_values = [] %>
@@ -24,7 +30,11 @@
                 :id => "ov_"+option_value.id.to_s
               ) %>
               <%= option_value.presentation %>
-              <%= "(#{option_value.amount.sign_symbol} #{number_to_currency(option_value.amount)})" unless option_value.amount.blank? %>
+              <% unless option_value.amount.blank? %>
+                (<span class="modifier">
+                  <%= "#{option_value.amount.sign_symbol} #{number_with_precision(option_value.amount.abs, :precision => 2)}" %>
+                </span>)
+              <% end %>
             </li>
         <% end %></ul>
       </fieldset>
@@ -86,5 +96,13 @@
       if (checked_radio[0])
         selected_values.push(checked_radio.attr('id').replace(/\D+/, ''))
     })
+
+    var new_price = parseFloat($('.original_price .price').text().replace(/[^\d,.]/g, ''))
+    $('#product-variants input:checked ~ .modifier').each(function(i, el){
+      var modifier = parseFloat($(el).text().replace(/[^\d,.-]/g, ''))
+      new_price = new_price + modifier
+    })
+    new_price = $('.modified_price .price').text().replace(/[\d,.-]+/, new_price.toFixed(2))
+    $('.modified_price .price').text(new_price)
   });
 </script>

@@ -27,7 +27,7 @@ OrdersController.class_eval do
     elsif quantity > 0
       flash[:error] = "We're sorry but you can't select this combination of options."
     else
-      flash[:error] = "You have to select at least one item"
+      flash[:error] = "You have to choose quantity larger then 0"
     end
   end
 

@@ -1,4 +1,6 @@
 Variant.class_eval do
+  after_update :adjust_variant_prices, :if => lambda{|r| r.price_changed? && r.is_master}
+
   def self.by_option_value_ids(option_value_ids)
     Variant.find_by_sql(['
         SELECT
@@ -20,11 +22,21 @@ Variant.class_eval do
     Variant.find(:first, :conditions => {:is_master => true, :product_id => self.product_id})
   end
 
+  def calculate_price(master_price=nil)
+    price = master_price || master_variant.price
+    price+= self.option_values.map(&:amount).sum
+    price > 0 ? price : 0
+  end
+
   # Ensures a new variant takes the product master price when price is not supplied
   def check_price
     if self.price.blank?
       raise "Must supply price for variant or master.price for product." if self == master_variant
-      self.price = self.option_values.map(&:amount).sum + master_variant.price
+      self.price = calculate_price
     end
+  end
+
+  def adjust_variant_prices
+    product.variants.each{|v| v.update_attribute(:price, v.calculate_price(self.price))}
   end
 end

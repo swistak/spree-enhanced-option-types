@@ -11,7 +11,7 @@
         %>
         <% else %>
           <% ov = @variant.option_values.detect {|o| o.option_type == option.option_type } %>
-          <% opt = ov.presentation + "(#{ov.amount.sign_symbol} #{ov.amount})" %>
+          <% opt = ov.presentation + "(#{ov.amount.sign_symbol} #{ov.amount.abs})" %>
           <%= text_field(:new_variant,  option.option_type.presentation, :value => opt, :disabled => 'disabled') %>
         <% end %>
       </p>
