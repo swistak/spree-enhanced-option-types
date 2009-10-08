@@ -23,8 +23,8 @@ Variant.class_eval do
   end
 
   def calculate_price(master_price=nil)
-    price = master_price || master_variant.price
-    price+= self.option_values.map(&:amount).sum
+    price = (master_price || master_variant.price).to_i
+    price+= self.option_values.map{|ov| ov.amount.to_i}.sum
     price > 0 ? price : 0
   end
 
