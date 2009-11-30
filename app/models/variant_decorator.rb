@@ -18,12 +18,8 @@ Variant.class_eval do
       ]).map(&:reload)
   end
 
-  def master_variant
-    Variant.find(:first, :conditions => {:is_master => true, :product_id => self.product_id})
-  end
-
   def calculate_price(master_price=nil)
-    price = (master_price || master_variant.price).to_i
+    price = (master_price || product.master.price).to_i
     price+= self.option_values.map{|ov| ov.amount.to_i}.sum
     price > 0 ? price : 0
   end
@@ -31,7 +27,7 @@ Variant.class_eval do
   # Ensures a new variant takes the product master price when price is not supplied
   def check_price
     if self.price.blank?
-      raise "Must supply price for variant or master.price for product." if self == master_variant
+      raise "Must supply price for variant or master.price for product." if self.is_master
       self.price = calculate_price
     end
   end
