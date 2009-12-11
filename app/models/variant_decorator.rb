@@ -4,7 +4,7 @@ Variant.class_eval do
   def self.by_option_value_ids(option_value_ids, product_id)
     Variant.find_by_sql(['
         SELECT
-          option_values_variants.variant_id as id,
+          option_values_variants.variant_id as id
         FROM
           option_values_variants, variants
         WHERE
