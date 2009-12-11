@@ -1,110 +1,30 @@
-<% ov_combinations = options_values_combinations(@product) %>
-
 <% form_for :order, :url => orders_url do |f| %>
-  <div class="prices">
-    <div class="original_price">
-      Base price:
-      <span class="price selling"><%= product_price(@product) %></span>
-    </div>
-    <% if @product.default_variant %>
-      <div class="modified_price">
-        Current price:
-        <span class="price selling"><%= product_price(@product.default_variant) %></span>
-      </div>
-    <% end %>
-  </div>
-  <div id="product-variants">
-    <% default_values = @product.default_variant.option_values.group_by{|ov| ov.option_type_id} if @product.default_variant %>
-    <% selected_values = [] %>
-    <% @product.option_types.uniq.each do |option_type|
-      default_value = default_values[option_type.id].first;
-    %>
-      <fieldset>
-        <legend> <%= option_type.presentation %> </legend>
-        <ul><% option_type.option_values.each_with_index do |option_value, i| %>
-            <li>
-              <%= radio_button_tag(
-                "option_values[#{@product.id}][#{option_type.id}]",
-                option_value.id,
-                option_value == default_value,
-                :disabled => !possible_combination?(ov_combinations, selected_values+[option_value.id]),
-                :id => "ov_"+option_value.id.to_s
-              ) %>
-              <%= option_value.presentation %>
-              <% unless option_value.amount.blank? %>
-                (<span class="modifier">
-                  <%= "#{option_value.amount.sign_symbol} #{number_with_precision(option_value.amount.abs, :precision => 2)}" %>
-                </span>)
-              <% end %>
-            </li>
-        <% end %></ul>
-      </fieldset>
-      <% selected_values << default_value.id;
-    end %>
-  </div>
 
-  <%= text_field_tag (@product.has_variants? ? :quantity : "variants[#{@product.master.id}]"),
-    1, :class => "title", :size => 3 %>
-  <button type='submit' class='large primary'>
-    <%= image_tag('/images/add-to-cart.png') + t('add_to_cart') %>
-  </button>
+  <% if product_price(@product) %>
+    <p class="prices">
+      <%= t("price") %>
+      <br />
+      <span class="price selling"><%= product_price(@product) %></span>
+    </p>
+  <% end %>
+
+  <% if @product.has_variants? %>
+    <div id="product-variants">
+      <%= render :partial => 'selects', :locals => {:f => f} %>
+    </div>
+  <% end%>
+  <% if @product.has_stock? || Spree::Config[:allow_backorders] %>
+    <%= text_field_tag (@product.has_variants? ? :quantity : "variants[#{@product.master.id}]"),
+      1, :class => "title", :size => 3 %>
+    &nbsp;
+    <button type='submit' class='large primary'>
+      <%= image_tag('/images/add-to-cart.png') + t('add_to_cart') %>
+    </button>
+  <% else %>
+    <%= content_tag('strong', t('out_of_stock')) %>
+  <% end %>
 <% end %>
 
-<script type="text/javascript">
-  // set of all possible combination of option values
-  var ov_combinations = <%= ov_combinations.to_json %>;
-
-  // okey let's start. this little gem finds if there is a possible combination
-  // that begining matches values. returns tru if there's at least one match.
-  //
-  // WARNING this method has equivalent on ruby side (possible_combinations? helper)
-  // If you plan to change it, make sure they both behave in the same way
-  function possible_combination(values){
-    var any_match = false;
-    jQuery.each(ov_combinations, function(i, combination){
-      var result = true
-      jQuery.each(values, function(i, v){
-        result = result && (combination[i] == v)
-      })
-      any_match = any_match || result;
-    })
-    return(any_match);
-  }
-
-  // This binds event watching function to every radio box
-  $("#product-variants input[type=radio]").bind("change", function(){
-    // this callback is actually called twice, one for radio box that's selected
-    // second one for unselected, so we choose one and run with it.
-    if(!this.checked) return;
-
-    var selected_values = [];
-    // for each option group (represented by fieldset)
-    $("#product-variants fieldset").map(function(i, fieldset){
-      // for each option value
-      $(fieldset).find("input[type=radio]").each(function(i, radio){
-        var ov_value = radio.id.replace(/\D+/, '');
-        // check if there's at least one possible combination for this setting
-        var can_be_set = possible_combination(selected_values.concat([ov_value]));
-        $(radio).attr('disabled', !can_be_set)
-        if (!can_be_set) // uncheck if it can't be used'
-          $(radio).attr('checked', false);
-      })
-
-      // find radio that is checked, or can be checked
-      var checked_radio = $(fieldset).find("input:checked");
-      if (!checked_radio[0])
-        checked_radio = $(fieldset).find("input:enabled").attr('checked', true)
-      // this should be absolutelly always possible, but just to be sure
-      if (checked_radio[0])
-        selected_values.push(checked_radio.attr('id').replace(/\D+/, ''))
-    })
-
-    var new_price = parseFloat($('.original_price .price').text().replace(/[^\d,.]/g, ''))
-    $('#product-variants input:checked ~ .modifier').each(function(i, el){
-      var modifier = parseFloat($(el).text().replace(/[^\d,.-]/g, ''))
-      new_price = new_price + modifier
-    })
-    new_price = $('.modified_price .price').text().replace(/[\d,.-]+/, new_price.toFixed(2))
-    $('.modified_price .price').text(new_price)
-  });
-</script>
+<% content_for :head do %>
+  <%= javascript_include_tag 'product' %>
+<% end %>

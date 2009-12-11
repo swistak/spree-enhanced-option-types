@@ -16,18 +16,25 @@ OrdersController.class_eval do
       quantity = params[:quantity].to_i if !params[:quantity].is_a?(Array)
       quantity = params[:quantity][variant_id].to_i if params[:quantity].is_a?(Array)
       option_value_ids = otov.map{|option_type_id, option_value_id| option_value_id}
-      variant = Variant.by_option_value_ids(option_value_ids).first
+      variant = Variant.by_option_value_ids(option_value_ids, product_id).first
     end if params[:option_values]
 
     if quantity > 0 && variant
-      @order.add_variant(variant, quantity)
-      @order.save
-      # store order token in the session
-      session[:order_token] = @order.token
+      if quantity > variant.on_hand
+        flash[:error] = t(:stock_to_small) % [variant.on_hand]
+      else
+        @order.add_variant(variant, quantity)
+        if @order.save
+          # store order token in the session
+          session[:order_token] = @order.token
+        else
+          flash[:error] = t(:out_of_stock)
+        end
+      end
     elsif quantity > 0
-      flash[:error] = "We're sorry but you can't select this combination of options."
+      flash[:error] = t(:wrong_combination)
     else
-      flash[:error] = "You have to choose quantity larger then 0"
+      flash[:error] = t(:wrong_quantity)
     end
   end
 

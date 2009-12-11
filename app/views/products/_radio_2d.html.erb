@@ -1,0 +1,92 @@
+<% ov_combinations = options_values_combinations(@product) %>
+<% ov_to_vhash = ov_to_variant_map(@product) %>
+
+<% x_option_type, y_option_type = *@product.option_types.uniq[0..1] %>
+<% width = x_option_type.option_values.length %>
+<% height = y_option_type.option_values.length %>
+<% default = @product.variants.detect{|v| v.in_stock} %>
+
+<table class="t2d">
+  <thead>
+    <tr>
+      <th>&nbsp;</th>
+      <th>&nbsp;</th>
+      <th colspan="<%= width %>" class="x-axis"><%= x_option_type.presentation %></th>
+    </tr>    
+  </thead>
+
+  <tbody>
+    <tr>
+      <td rowspan="<%= height+1 %>" class="y-axis">
+        <%= y_option_type.presentation.split(//u).join("<br />") %>
+      </td>
+      <td class="option top left">&nbsp;</td>
+      <% x_option_type.option_values.each do |ov| %>
+        <td class="option top"><%= ov.presentation.split(//u)[0..4].join("<br />") %></td>
+      <% end %>
+    </tr>
+
+    <% y_option_type.option_values.each_with_index do |yov, i| %>
+      <tr>
+        <td class="option left"><%= yov.presentation %></td>
+        <% x_option_type.option_values.each do |xov| %>
+          <td>
+            <%=
+            v = ov_to_vhash[[xov.id, yov.id]]
+            radio_button_tag(
+              "products[#{@product.id}]",
+              v ? v.id : "",
+              v == default,
+              :disabled => !(v && (v.in_stock || Spree::Config[:allow_backorders]))
+            ) %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<script type="text/javascript">
+  // set of all possible combination of option values
+  var ov_combinations = <%= ov_combinations.to_json %>;
+</script>
+<%#
+WARNING! This scripts are inlined here on purpose! for ease of embeding and customization.
+If you plan to extract them and put them into header, don't.
+And if you really really really want to please make sure they are wrapped into
+document ready event (it's not needed here as we put script AFTER everything we need is in DOM and loaded)
+%>
+<script type="text/javascript" src="/javascripts/eot-common.js"></script>
+<script type="text/javascript" src="/javascripts/eot-radio.js"></script>
+<style type="text/css">
+  table.t2d {
+
+  }
+
+  table.t2d td{
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+    text-align: center;
+    margin: 0px;
+    padding: 0px;
+  }
+
+  table.t2d th{
+    text-align: center;
+  }
+
+  table.t2d td.option.left{
+    text-align: right;
+    border-bottom: 1px solid #444;
+  }
+
+  table.t2d td.option.top{
+    border-right: 1px solid #444;
+  }
+
+  table.t2d td.y-axis {
+    font-weight: bold;
+    border: none;
+  }
+</style>

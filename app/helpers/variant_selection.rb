@@ -16,26 +16,27 @@ module VariantSelection
     }
   end
 
-  # Returns array of arrays of ids of option values,
-  # that represent all possible combinations of option _values
-  # sorted by option type position in that product, followed by a variant
+  # Returns hash that maps _array of ids of option values_ to _variant attributes_,
   #
   # eg.
   #
-  # [ [[1,2,3,4], <Variant#1>], [[1,2,3,3], <Variant#2>]]
+  # { [1,2,3,4] => <Variant#1> }
   #
-  def options_values_combinations_with_variant(product)
+  def ov_to_variant_map(product)
+    result = {}
     product.variants.map{|v|
       # we get all variants from product
       # then we take all option_values
-      [v.option_values.sort_by{|ov|
+      key = v.option_values.sort_by{|ov|
         # then sort them by position of option value in product
         ProductOptionType.find(:first, :conditions => {
             :option_type_id => ov.option_type_id,
             :product_id => product.id
           }).position
-      }.map(&:id), v]
+      }.map(&:id)
+      result[key] = v
     }
+    return(result)
   end
 
   # checks if there's a possible combination

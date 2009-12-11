@@ -1,20 +1,23 @@
 Variant.class_eval do
   after_update :adjust_variant_prices, :if => lambda{|r| r.price_changed? && r.is_master}
 
-  def self.by_option_value_ids(option_value_ids)
+  def self.by_option_value_ids(option_value_ids, product_id)
     Variant.find_by_sql(['
         SELECT
           option_values_variants.variant_id as id,
-          COUNT(option_values_variants.variant_id) as count
         FROM
-          option_values_variants
+          option_values_variants, variants
         WHERE
-          option_values_variants.option_value_id IN (?)
+          option_values_variants.option_value_id IN (?) 
+            AND
+          option_values_variants.variant_id = variants.id
+            AND
+          variants.product_id = ?
         GROUP BY
           option_values_variants.variant_id
         HAVING
-          count = ?',
-        option_value_ids, option_value_ids.length
+          COUNT(option_values_variants.variant_id) = ?',
+        option_value_ids, product_id, option_value_ids.length
       ]).map(&:reload)
   end
 
