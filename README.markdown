@@ -6,26 +6,27 @@ This extension enchances spree functionality when handling products with
 numerous and complex variants.
 
 Following enchancements are provided:
- * Admin side:
- ** Selecting order of option types for prototype with drag & drop
- ** Optional "modifiers" for option values that can modify price of variant
- ** Option to generate set of variants from prototype with option types.
+
+* Admin side:
+  * Selecting order of option types for prototype with drag & drop
+  * Optional "modifiers" for option values that can modify price of variant
+  * Option to generate set of variants from prototype with option types.
     When option is selected during product creation, variants are created for
     each combination of option values (eg. Sizes: [S,M,L], Colors: [Red, Blue]
     will generate 6 variants), with prices calculated from sum of product base price
     and amount of option_value modifiers.
- ** Option to regenerate variants when needed.
- ** Option to calculate variant price when creating new variant based on product
+  * Option to regenerate variants when needed.
+  * Option to calculate variant price when creating new variant based on product
     price and sum of modifiers from option values.
- * Client side variant selection:
- ** using x select boxes (1 for each option_type)
- ** using x sets of radio boxes grouped in fieldsets (one fieldset for each option type)
- ** using 2d table of radio boxes (only when there are only 2 option types!)
- * Javascript helpers:
- ** Instant updating of price based on variant selected using above methods
- ** Instand updating of number of on_hand units
- ** enabling/disabling options that don't have corresponding variant.
- ** products.js override (edge spree only) for working with variant images
+* Client side variant selection:
+  * using x select boxes (1 for each option_type)
+  * using x sets of radio boxes grouped in fieldsets (one fieldset for each option type)
+  * using 2d table of radio boxes (only when there are only 2 option types!)
+* Javascript helpers:
+  * Instant updating of price based on variant selected using above methods
+  * Instand updating of number of on_hand units
+  * enabling/disabling options that don't have corresponding variant.
+  * products.js override (edge spree only) for working with variant images
 
 Some of the functionality might not work without javascript, but much work was put
 to make JS as unintrusive as possible, so It should be fairly easy excercise
@@ -33,9 +34,9 @@ to make it completelly JS independent.
 
 == Examples
 
-![Radiobox sets](doc/sets.jpg)
-![selects sets](doc/selects.jpg)
-![table](doc/2d.jpg)
+![Radiobox sets](raw/master/doc/sets.jpg)
+![selects sets](raw/master/doc/selects.jpg)
+![table](raw/master/doc/2d.jpg)
 
 == Customization
 
