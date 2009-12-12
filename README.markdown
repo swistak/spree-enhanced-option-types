@@ -1,11 +1,5 @@
 # Enchanced Option Types
 
-## Credits
-
-Created by Marcin Raczkowski (marcin.raczkowski@gmail.com)
-2d table was inspired by Stephanie Powell [post](
-http://blog.endpoint.com/2009/12/rails-ecommerce-product-optioning-in.html)
-
 ## Description
 
 This extension enchances spree functionality when handling products with
@@ -37,6 +31,13 @@ Following enchancements are provided:
 Some of the functionality might not work without javascript, but much work was put
 to make JS as unintrusive as possible, so It should be fairly easy excercise
 to make it completelly JS independent.
+
+## Credits
+
+Created by Marcin Raczkowski (marcin.raczkowski@gmail.com)
+
+2d table was inspired by Stephanie Powell [post](
+http://blog.endpoint.com/2009/12/rails-ecommerce-product-optioning-in.html)
 
 ## Examples
 
