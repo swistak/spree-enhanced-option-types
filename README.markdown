@@ -1,11 +1,57 @@
 = Enchanced Option Types
 
-This extension allows for creating enchanced option values that add modifiers to master price of product.
-When you create new product from from prototype you get option to create variants. 
-Variants will be created for each combination of option values, and price for each variant will be set by suming all modifiers and master price of product.
-You can also create variants by hand, or create all of them then remove ones with combinations of option values you don't want.
+Created by Marcin Raczkowski (marcin.raczkowski@gmail.com)
 
-User won't be able to select combination that doesn't have corresponding variant, enabling/disabling is done in real time.
+This extension enchances spree functionality when handling products with
+numerous and complex variants.
+
+Following enchancements are provided:
+ * Admin side:
+ ** Selecting order of option types for prototype with drag & drop
+ ** Optional "modifiers" for option values that can modify price of variant
+ ** Option to generate set of variants from prototype with option types.
+    When option is selected during product creation, variants are created for
+    each combination of option values (eg. Sizes: [S,M,L], Colors: [Red, Blue]
+    will generate 6 variants), with prices calculated from sum of product base price
+    and amount of option_value modifiers.
+ ** Option to regenerate variants when needed.
+ ** Option to calculate variant price when creating new variant based on product
+    price and sum of modifiers from option values.
+ * Client side variant selection:
+ ** using x select boxes (1 for each option_type)
+ ** using x sets of radio boxes grouped in fieldsets (one fieldset for each option type)
+ ** using 2d table of radio boxes (only when there are only 2 option types!)
+ * Javascript helpers:
+ ** Instant updating of price based on variant selected using above methods
+ ** Instand updating of number of on_hand units
+ ** enabling/disabling options that don't have corresponding variant.
+ ** products.js override (edge spree only) for working with variant images
+
+Some of the functionality might not work without javascript, but much work was put
+to make JS as unintrusive as possible, so It should be fairly easy excercise
+to make it completelly JS independent.
+
+== Examples
+
+![Radiobox sets](doc/sets.jpg)
+![selects sets](doc/selects.jpg)
+![table](doc/2d.jpg)
+
+== Customization
+
+User interface change is limited only to _cart_form partial from original spree.
+it was separated into several subfiles to make customization and embeding in custom layouts easier.
+
+There are no inline styles (except for 2d table, that absolutelly requires
+some wire frame styles to look sane), you can either use provided _cart_form
+partial as a replacement for generic spree partial, or you can roll your own and
+only include one of variant choosing partials.
+
+There are some special css classes you might be interested in:
+.price.update - price field that should be updated with new price value if variant changes.
+span.
+
+Source is extensivelly documented and I recomend reading it.
 
 == Limitations
 
@@ -15,3 +61,32 @@ User won't be able to select combination that doesn't have corresponding variant
 
 - gracefull handling non-js users.
 - test under other browsers then FF
+
+== License
+
+Copyright (c) 2007-2009, Marcin Raczkowski
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+    * Redistributions of source code must retain the above copyright notice,
+      this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright notice,
+      this list of conditions and the following disclaimer in the documentation
+      and/or other materials provided with the distribution.
+    * Neither the name of the Rails Dog LLC nor the names of its
+      contributors may be used to endorse or promote products derived from this
+      software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.

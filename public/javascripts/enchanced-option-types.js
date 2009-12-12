@@ -15,6 +15,7 @@ function possible_combination(values){
   return(any_match);
 }
 
+// Callback called each time variant is changed.
 function variant_changed(variant_id) {
   var va = variant_attributes[variant_id];
   var new_price = va.price;
@@ -25,6 +26,7 @@ function variant_changed(variant_id) {
   if($('span.on-hand')[0]) {
     $('span.on-hand').text(va.on_hand);
   }
+  update_variant_images(variant_id, va.description);
 }
 
 $('#product-variants table.t2d input[type=radio]').bind("change", function(){
@@ -64,7 +66,7 @@ $("#product-variants input[type=radio].option-value").bind("change", function(){
 
 $('#product-variants select.option-type').bind("change", function(){
   var selected_values = [];
-  // for each option group (represented by fieldset)
+  // for each option group (represented by select)
   $("#product-variants select.option-type").map(function(i, select){
     // for each option value
     $(select).find("option").each(function(i, option){
