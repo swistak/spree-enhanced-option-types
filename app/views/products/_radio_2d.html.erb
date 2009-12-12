@@ -4,7 +4,7 @@
 <% x_option_type, y_option_type = *@product.option_types.uniq[0..1] %>
 <% width = x_option_type.option_values.length %>
 <% height = y_option_type.option_values.length %>
-<% default = @product.variants.detect{|v| v.in_stock} %>
+<% default = @product.default_variant %>
 
 <table class="t2d">
   <thead>
@@ -36,7 +36,7 @@
             radio_button_tag(
               "products[#{@product.id}]",
               v ? v.id : "",
-              v == default,
+              v && (v == default),
               :disabled => !(v && (v.in_stock || Spree::Config[:allow_backorders]))
             ) %>
           </td>
@@ -46,18 +46,8 @@
   </tbody>
 </table>
 
-<script type="text/javascript">
-  // set of all possible combination of option values
-  var ov_combinations = <%= ov_combinations.to_json %>;
-</script>
-<%#
-WARNING! This scripts are inlined here on purpose! for ease of embeding and customization.
-If you plan to extract them and put them into header, don't.
-And if you really really really want to please make sure they are wrapped into
-document ready event (it's not needed here as we put script AFTER everything we need is in DOM and loaded)
-%>
-<script type="text/javascript" src="/javascripts/eot-common.js"></script>
-<script type="text/javascript" src="/javascripts/eot-radio.js"></script>
+<%= render :partial => 'eot_includes', :locals => {:ov_combinations => ov_combinations} %>
+
 <style type="text/css">
   table.t2d {
 
