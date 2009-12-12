@@ -17,7 +17,14 @@ function possible_combination(values){
 
 function variant_changed(variant_id) {
   var va = variant_attributes[variant_id];
-  console.log(va);
+  var new_price = va.price;
+  if($('.price.update')[0]) {
+    new_price = $('.price.update').text().replace(/[\d,.-]+/, new_price.toFixed(2));
+    $('.price.update').text(new_price);
+  }
+  if($('span.on-hand')[0]) {
+    $('span.on-hand').text(va.on_hand);
+  }
 }
 
 $('#product-variants table.t2d input[type=radio]').bind("change", function(){
@@ -62,7 +69,6 @@ $('#product-variants select.option-type').bind("change", function(){
     // for each option value
     $(select).find("option").each(function(i, option){
       var ov_value = option.value.replace(/\D+/, '');
-      console.log(selected_values.concat([ov_value]));
       // check if there's at least one possible combination for this setting
       var can_be_set = possible_combination(selected_values.concat([ov_value]));
       $(option).attr('disabled', !can_be_set)
