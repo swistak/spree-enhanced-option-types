@@ -56,10 +56,10 @@ Thrid shows the 2d table for variant choosing.
 ## Instalation
 
 For git users:
-@git submodule add git://github.com/swistak/spree-enchanced-option-types.git vendor/enchanced_option_types@
+<code>git submodule add git://github.com/swistak/spree-enchanced-option-types.git vendor/enchanced_option_types</code>
 
 for others (or git users that don't like submodules):
-@ruby script/extension install git://github.com/swistak/spree-enchanced-option-types.git@
+<code>ruby script/extension install git://github.com/swistak/spree-enchanced-option-types.git</code>
 
 ## Customization
 
