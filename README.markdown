@@ -38,6 +38,7 @@ Created by Marcin Raczkowski (marcin.raczkowski@gmail.com)
 
 2d table was inspired by Stephanie Powell [post](
 http://blog.endpoint.com/2009/12/rails-ecommerce-product-optioning-in.html)
+You can(and should!) read it.
 
 ## Examples
 
