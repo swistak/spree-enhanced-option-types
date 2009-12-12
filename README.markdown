@@ -34,9 +34,9 @@ to make it completelly JS independent.
 
 == Examples
 
-![Radiobox sets](raw/master/doc/sets.jpg)
-![selects sets](raw/master/doc/selects.jpg)
-![table](raw/master/doc/2d.jpg)
+![Radiobox sets](/swistak/spree-enchanced-option-types/raw/master/doc/sets.jpg)
+![selects sets](/swistak/spree-enchanced-option-types/raw/master/doc/selects.jpg)
+![table](/swistak/spree-enchanced-option-types/raw/master/doc/2d.jpg)
 
 == Customization
 
