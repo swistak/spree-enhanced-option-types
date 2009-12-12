@@ -1,6 +1,12 @@
-= Enchanced Option Types
+# Enchanced Option Types
+
+## Credits
 
 Created by Marcin Raczkowski (marcin.raczkowski@gmail.com)
+2d table was inspired by Stephanie Powell [post](
+http://blog.endpoint.com/2009/12/rails-ecommerce-product-optioning-in.html)
+
+## Description
 
 This extension enchances spree functionality when handling products with
 numerous and complex variants.
@@ -32,13 +38,21 @@ Some of the functionality might not work without javascript, but much work was p
 to make JS as unintrusive as possible, so It should be fairly easy excercise
 to make it completelly JS independent.
 
-== Examples
+## Examples
 
 ![Radiobox sets](/swistak/spree-enchanced-option-types/raw/master/doc/sets.jpg)
 ![selects sets](/swistak/spree-enchanced-option-types/raw/master/doc/selects.jpg)
 ![table](/swistak/spree-enchanced-option-types/raw/master/doc/2d.jpg)
 
-== Customization
+On first example you can see sets of radio boxes and modifiers in action,
+also notable is separation of base price and current(variant) price, only second one is updatable.
+
+Second one shows selects - it's much more compact then previous example,
+ but doesn't instantly show all options.
+
+Thrid shows the 2d table for variant choosing.
+
+## Customization
 
 User interface change is limited only to _cart_form partial from original spree.
 it was separated into several subfiles to make customization and embeding in custom layouts easier.
@@ -54,16 +68,16 @@ span.
 
 Source is extensivelly documented and I recomend reading it.
 
-== Limitations
+## Limitations
 
 - currently there's no way to change order of option types AFTER product is created
 
-== TODO
+## TODO
 
 - gracefull handling non-js users.
 - test under other browsers then FF
 
-== License
+## License
 
 Copyright (c) 2007-2009, Marcin Raczkowski
 All rights reserved.
