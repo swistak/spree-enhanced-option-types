@@ -1,6 +1,6 @@
 OrdersController.class_eval do
   # This is hack to get extension working with both edge and 0.9.x series
-  unless instance_methods.include?("create_before")
+  unless private_instance_methods.include?("create_before")
     create.before :create_before
     create.after.clear
   end
