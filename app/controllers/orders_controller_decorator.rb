@@ -1,5 +1,11 @@
 OrdersController.class_eval do
-  create.after do
+  # This is hack to get extension working with both edge and 0.9.x series
+  unless instance_methods.include?("create_before")
+    create.before :create_before
+    create.after.clear
+  end
+
+  def create_before
     variant = nil; quantity = nil;
     params[:products].each do |product_id,variant_id|
       quantity = params[:quantity].to_i if !params[:quantity].is_a?(Array)
