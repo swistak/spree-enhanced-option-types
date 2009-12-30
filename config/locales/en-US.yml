@@ -5,3 +5,6 @@ en-US:
   wrong_combination: "We're sorry but you can't select this combination of options."
   wrong_quantity: "You have to choose quantity larger then 0"
   variant_price: Variant price
+  regenerate: "regenerate variants"
+  regenerate_confirm: "This will wipe out all your current variants\nAre you sure?"
+

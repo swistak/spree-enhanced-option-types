@@ -1,8 +1,8 @@
-<%= button_link_to "regenerate variants",
+<%= button_link_to t(:regenerate),
   {:action => :regenerate, :product_id => params[:product_id]},
   :method => :post,
   :icon => 'exclamation',
-  :confirm => "This will wipe out all your current variants\nAre you sure?",
+  :confirm => t(:regenerate_confirm),
   :style => "float: right"
 %>
 
