@@ -8,17 +8,15 @@
   options = option_type.option_values.map do |ov|
     [ov.presentation, ov.id, ov == default_value, !possible_combination?(ov_combinations, selected_values+[ov.id])]
   end.compact %>
-
-  <span class="option-type"><%= option_type.presentation %></span>
-  <% select_options = options.map{|o|
-    selected_attribute = ' selected="selected"' if o[2]
-    disabled_attribute = ' disabled="disabled"' if o[3]
-    %(<option value="#{html_escape(o[1].to_s)}"#{selected_attribute}#{disabled_attribute}>#{html_escape(o[0].to_s)}</option>)
-  }
-
-%>
-  <%= select_tag("option_values[#{@product.id}][#{option_type.id}]", select_options, :class=>"option-type" ) %>
-
+  <div class="option-type-wrapper">
+    <span class="option-type"><%= option_type.presentation %></span>
+    <% select_options = options.map{|o|
+      selected_attribute = ' selected="selected"' if o[2]
+      disabled_attribute = ' disabled="disabled"' if o[3]
+      %(<option value="#{html_escape(o[1].to_s)}"#{selected_attribute}#{disabled_attribute}>#{html_escape(o[0].to_s)}</option>)
+    } %>
+    <%= select_tag("option_values[#{@product.id}][#{option_type.id}]", select_options, :class=>"option-type" ) %>
+  </div>
   <% selected_values << default_value.id;
 end %>
 
