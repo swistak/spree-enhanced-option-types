@@ -1,5 +1,5 @@
 OptionValue.class_eval do
-  validates_numericality_of :amount
+  validates_numericality_of :amount, :allow_nil => true
   
   after_update :adjust_variant_prices, :if => :amount_changed?
 

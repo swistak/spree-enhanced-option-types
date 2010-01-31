@@ -16,8 +16,8 @@ class EnchancedOptionTypesExtension < Spree::Extension
     base = File.dirname(__FILE__)
     Dir.glob(File.join(base, "app/**/*_decorator.rb")){|c| load(c)}
 
-    FileUtils.cp Dir.glob(File.join(base, "public/stylesheets/*.css")), File.join(RAILS_ROOT, "public/stylesheets/")
-    FileUtils.cp Dir.glob(File.join(base, "public/javascripts/*.js")), File.join(RAILS_ROOT, "public/javascripts")
+#    FileUtils.cp Dir.glob(File.join(base, "public/stylesheets/*.css")), File.join(RAILS_ROOT, "public/stylesheets/")
+#    FileUtils.cp Dir.glob(File.join(base, "public/javascripts/*.js")), File.join(RAILS_ROOT, "public/javascripts")
 
     # make your helper avaliable in all views
     Spree::BaseController.class_eval do
