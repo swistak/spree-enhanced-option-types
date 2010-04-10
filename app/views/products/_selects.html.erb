@@ -8,7 +8,7 @@
   options = option_type.option_values.map do |ov|
     [ov.presentation, ov.id, ov == default_value, !possible_combination?(ov_combinations, selected_values+[ov.id])]
   end.compact %>
-  <div class="option-type-wrapper">
+  <div class="option-type-wrapper" id="option-type_<%=option_type.name%>">
     <span class="option-type"><%= option_type.presentation %></span>
     <% select_options = options.map{|o|
       selected_attribute = ' selected="selected"' if o[2]
