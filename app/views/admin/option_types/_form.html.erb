@@ -30,5 +30,5 @@
 
 <p>
 <%= f.add_associated_link( icon('add') + ' ' + t("add_option_value"), @option_type.option_values.build, 
-                         {:onclick => "Element.hide('none');", :class => 'iconlink'}) %>
+                         {:onclick => "$('#none').hide();", :class => 'iconlink'}) %>
 </p>
