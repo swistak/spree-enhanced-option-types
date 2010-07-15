@@ -5,14 +5,17 @@ OrdersController.class_eval do
     create.after.clear
   end
 
-  def create_before
+  create.before.reject! {|method_name| method_name == :create_before }
+  create.before << :enhanced_option_create_before
+
+  def enhanced_option_create_before
     variant = nil; quantity = nil;
     params[:products].each do |product_id,variant_id|
       quantity = params[:quantity].to_i if !params[:quantity].is_a?(Array)
       quantity = params[:quantity][variant_id].to_i if params[:quantity].is_a?(Array)
       variant = Variant.find(variant_id)
     end if params[:products]
-    
+
     params[:variants].each do |variant_id, quantity|
       quantity = quantity.to_i
       variant = Variant.find(variant_id)
