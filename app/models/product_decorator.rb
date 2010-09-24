@@ -2,6 +2,8 @@ Product.class_eval do
   attr_accessor :create_variants
   after_create :do_create_variants
 
+  has_and_belongs_to_many :option_values
+
   has_many :option_types, :through => :product_option_types, :order => "product_option_types.position ASC"
 
   def do_create_variants(force = false)
@@ -19,19 +21,25 @@ Product.class_eval do
   end
 
   def default_variant
-    variants.first
+    variants.first || master
   end
 
   def generate_variant_combinations(option_values = nil)
     option_values ||= self.option_types.map{|ot| ot.option_values}
-    if option_values.length == 1
+    if option_values.blank?
+      []
+    elsif option_values.length == 1
       option_values.first.map{|v| [v]}
-    else
+    elsif option_values.length > 1
       result = []
       option_values.first.each do |value|
         result += generate_variant_combinations(option_values[1..-1]).map{|rv| rv.push(value) }
       end
       result
     end
+  end
+
+  def has_variants?
+    !(variants.empty? && option_values.blank?)
   end
 end

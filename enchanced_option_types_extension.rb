@@ -16,9 +16,6 @@ class EnchancedOptionTypesExtension < Spree::Extension
     base = File.dirname(__FILE__)
     Dir.glob(File.join(base, "app/**/*_decorator.rb")){|c| load(c)}
 
-#    FileUtils.cp Dir.glob(File.join(base, "public/stylesheets/*.css")), File.join(RAILS_ROOT, "public/stylesheets/")
-#    FileUtils.cp Dir.glob(File.join(base, "public/javascripts/*.js")), File.join(RAILS_ROOT, "public/javascripts")
-
     # make your helper avaliable in all views
     Spree::BaseController.class_eval do
       helper VariantSelection
@@ -33,14 +30,6 @@ class EnchancedOptionTypesExtension < Spree::Extension
         else
           ""
         end
-      end
-    end
-
-    Admin::PrototypesController.class_eval do
-      before_filter :load_sortable
-
-      def load_sortable
-        render_to_string :partial => 'sortable_header'
       end
     end
   end

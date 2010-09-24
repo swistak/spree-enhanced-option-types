@@ -1,23 +1,17 @@
-<% ov_combinations = options_values_combinations(@product) %>
-
-<% default_values = @product.default_variant.option_values.group_by{|ov| ov.option_type_id} if @product.default_variant %>
-<% selected_values = [] %>
-<% @product.option_types.uniq.each do |option_type|
-  default_value = default_values[option_type.id].first;
-
-  options = option_type.option_values.map do |ov|
-    [ov.presentation, ov.id, ov == default_value, !possible_combination?(ov_combinations, selected_values+[ov.id])]
-  end.compact %>
+<%
+@product.option_types.uniq.each do |option_type|
+  options = @product.option_values.all(:conditions => {:option_type_id => option_type.id}).map{|ov|
+    [ov.presentation, ov.id]
+  }
+  next if options.empty?
+%>
   <div class="option-type-wrapper" id="option-type_<%=option_type.name%>">
     <span class="option-type"><%= option_type.presentation %></span>
     <% select_options = options.map{|o|
       selected_attribute = ' selected="selected"' if o[2]
-      disabled_attribute = ' disabled="disabled"' if o[3]
-      %(<option value="#{html_escape(o[1].to_s)}"#{selected_attribute}#{disabled_attribute}>#{html_escape(o[0].to_s)}</option>)
+      %(<option value="#{html_escape(o[1].to_s)}"#{selected_attribute}>#{html_escape(o[0].to_s)}</option>)
     } %>
     <%= select_tag("option_values[#{@product.id}][#{option_type.id}]", select_options, :class=>"option-type" ) %>
   </div>
-  <% selected_values << default_value.id;
+  <% 
 end %>
-
-<%= render :partial => 'eot_includes', :locals => {:ov_combinations => ov_combinations} %>
