@@ -7,4 +7,6 @@ en:
   variant_price: Variant price
   regenerate: "regenerate variants"
   regenerate_confirm: "This will wipe out all your current variants\nAre you sure?"
+  delete_all: "Delete All"
+  delete_confirm: "Are you really sure you want to delete all current variants?"
 
