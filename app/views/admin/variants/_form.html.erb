@@ -8,10 +8,9 @@
           <%= select(:new_variant, option.option_type.presentation,
             option.option_type.option_values.collect {|ov| [ ov.presentation, ov.id ] },
             {})
-        %>
+          %>
         <% else %>
-          <% ov = @variant.option_values.detect {|o| o.option_type == option.option_type } %>
-          <% opt = ov.presentation + "(#{ov.amount.sign_symbol} #{ov.amount.abs})" %>
+          <% opt = @variant.option_values.detect {|o| o.option_type == option.option_type }.presentation %>
           <%= text_field(:new_variant,  option.option_type.presentation, :value => opt, :disabled => 'disabled') %>
         <% end %>
       </p>
@@ -20,24 +19,26 @@
     <p><%= f.label :sku, t("sku") %><br />
     <%= f.text_field :sku %></p>
 
-
     <p>
       <%= f.label :price, t("price") %>:<br />
-      <%= f.text_field :price %><br />
-      (price will be calculated automatically from option values and master price if left empty)
+      <%= f.text_field :price, :value => number_with_precision(@variant.price, :precision => 2) %>
+      <br/>
+      (* if left empty - price will be calculated automatically from option values and master price)
     </p>
 
 
-    <p><%= f.label :on_hand, t("on_hand") %>: <br />
-    <%= f.text_field :on_hand %></p>
+    <p><%= f.label :cost_price, t("cost_price") %>:<br />
+    <%= f.text_field :cost_price, :value => number_with_precision(@variant.cost_price, :precision => 2) %></p>
 
-
-
+    <% if Spree::Config[:track_inventory_levels] %>
+      <p><%= f.label :on_hand, t("on_hand") %>: <br />
+      <%= f.text_field :on_hand %></p>
+    <% end %>
   </div>
   <div class="yui-u">
 
     <% Variant.additional_fields.select{|af| af[:only].nil? || af[:only].include?(:variant) }.each do |field| %>
-      <%= render :partial => "admin/shared/additional_field", :locals => {:field => field, :f => f, :label_text => t(field[:name].downcase, :scope => [:activerecord, :attributes, :variant])} %>
+      <%= render :partial => "admin/shared/additional_field", :locals => {:field => field, :f => f} %>
     <% end %>
 
   </div>

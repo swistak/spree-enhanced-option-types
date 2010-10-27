@@ -1,4 +1,4 @@
-<% f.field_container :name do %>
+<%= f.field_container :name do %>
   <%= f.label :name, t("name") %><br />
   <%= f.text_field :name %>
   <%= f.error_message_on :name %>
@@ -7,19 +7,19 @@
 <h3><%= t("properties") %></h3>
 
 <ul class='checkbox-list' id='properties'>
-  <% Property.sorted.each do |property| %>
-    <% selected = if @prototype.new_record?
-      (params[:property] and params[:property][:id] and params[:property][:id].include?(property.id.to_s))
-    else
-      @prototype.properties.include?(property)
-    end %>
-    <li>
-      <label>
-        <%= check_box_tag "property[id][]", "#{property.id}", selected %>
+	<% Property.sorted.each do |property| %>
+  <% selected = if @prototype.new_record?
+    (params[:property] and params[:property][:id] and params[:property][:id].include?(property.id.to_s))
+  else
+    @prototype.properties.include?(property)
+  end %>
+		<li>
+	  	<label>
+	  	  <%= check_box_tag "property[id][]", "#{property.id}", selected %>
         <%= property.name %>
       </label>
-    </li>
-  <% end %>
+		</li>
+	<% end %>
 </ul>
 
 <hr />
@@ -45,8 +45,9 @@
     </li>
   <% end %>
 </ul>
-(hint: You can drag and drop option types to select their order)
+
 <hr />
+(hint: You can drag and drop option types to select their order)
 <script type="text/javascript"> jQuery("#option-types").sortable() </script>
 <style>
   #option-types.checkbox-list li {

@@ -1,3 +1,27 @@
+function update_variant_images(vid, text) {
+  jQuery("#variant-thumbnails").empty();
+  if (text) jQuery("#variant-images span").html(text);
+
+  if (images && images[vid] && images[vid].length > 0) {
+    $.each(images[vid], function(i, link) {
+      jQuery("#variant-thumbnails").append('<li>' + link + '</li>');
+    });
+
+    jQuery("#variant-images").show();
+  } else {
+    jQuery("#variant-images").hide();
+  }
+
+  add_image_handlers();
+
+  var link = jQuery("#variant-thumbnails a")[0];
+
+  jQuery("#main-image img").attr({src: jQuery(link).attr('href')});
+  jQuery('ul.thumbnails li').removeClass('selected');
+  jQuery(link).parent('li').addClass('selected');
+}
+
+
 // This little gem finds if there is a possible combination
 // that begining matches values. returns tru if there's at least one match.
 //
@@ -20,7 +44,7 @@ function variant_changed(variant_id) {
   var va = variant_attributes[variant_id];
   var new_price = va.price;
   if($('.price.update')[0]) {
-    new_price = $('.price.update').text().replace(/[\d,.-]+/, new_price.toFixed(2));
+    new_price = $('.price.update').text().replace(/[\d,.-]+/, parseFloat(new_price).toFixed(2));
     $('.price.update').text(new_price);
   }
   if($('span.on-hand')[0]) {

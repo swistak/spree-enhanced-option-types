@@ -1,18 +1,20 @@
 <%
-js_ov_to_variant_map = {}
+js_ov_to_variant_map    = {}
 variant_attributes_hash = {}
+
 ov_to_variant_map(@product).each_pair do |k,v|
   js_ov_to_variant_map[k.join(',')] = v.id
-  variant_attributes_hash[v.id] = v.attributes.merge(:on_hand => v.on_hand, :description => variant_options(v))
+  variant_attributes_hash[v.id]     = v.attributes.merge(:on_hand => v.on_hand, :description => variant_options(v))
 end
+
 %>
 <script type="text/javascript">
   // set of all possible combination of option values
-  var ov_combinations = <%= ov_combinations.to_json %>;
+  var ov_combinations = <%= ov_combinations.to_json.html_safe %>;
   // maps variant attributes to variant id
-  var ov_to_variant = <%= js_ov_to_variant_map.to_json %>
-  // maping from variant id to variant attributes
-  var variant_attributes = <%= variant_attributes_hash.to_json %>
+  var ov_to_variant = <%= js_ov_to_variant_map.to_json.html_safe %>;
+  // mapping from variant id to variant attributes
+  var variant_attributes = <%= variant_attributes_hash.to_json.html_safe %>;
 </script>
 <%#
   WARNING! This scripts are inlined here on purpose! for ease of embeding and customization.
@@ -20,4 +22,4 @@ end
   And if you really really really want to please make sure they are wrapped into
   document ready event (it's not needed here as we put script AFTER everything we need is in DOM and loaded)
 %>
-<%= javascript_include_tag('enchanced-option-types.js') %>
+<%= javascript_include_tag('enhanced-option-types.js') %>

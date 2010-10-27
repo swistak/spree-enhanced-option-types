@@ -2,7 +2,6 @@ module VariantSelection
   # Returns array of arrays of ids of option values,
   # that represent all possible combinations of option _values
   # sorted by option type position in that product.
-  # 
   def options_values_combinations(product)
     product.variants.map{|v| # we get all variants from product
       # then we take all option_values
@@ -29,10 +28,7 @@ module VariantSelection
       # then we take all option_values
       key = v.option_values.sort_by{|ov|
         # then sort them by position of option value in product
-        ProductOptionType.find(:first, :conditions => {
-            :option_type_id => ov.option_type_id,
-            :product_id => product.id
-          }).position
+        ProductOptionType.find(:first, :conditions => { :option_type_id => ov.option_type_id, :product_id => product.id }).position
       }.map(&:id)
       result[key] = v
     }
