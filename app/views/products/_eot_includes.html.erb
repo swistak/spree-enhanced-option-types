@@ -4,7 +4,7 @@ variant_attributes_hash = {}
 
 ov_to_variant_map(@product).each_pair do |k,v|
   js_ov_to_variant_map[k.join(',')] = v.id
-  recalculated_price = ( Spree::Config[:show_price_inc_vat] ? Calculator::Vat.calculate_tax_on(v.price) : v.price )
+  recalculated_price = ( Spree::Config[:show_price_inc_vat] ? Calculator::Vat.calculate_tax_on(v) : v.price )
   variant_attributes_hash[v.id]     = v.attributes.merge(:on_hand => v.on_hand,
                                                          :description => variant_options(v),
                                                          :price => recalculated_price)
