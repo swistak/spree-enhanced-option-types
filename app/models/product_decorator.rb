@@ -11,11 +11,15 @@ Product.class_eval do
             :product => self,
             :option_values => option_values,
             :is_master => false,
-            :sku => self.sku.blank? ? "#{self.name.to_url[0..3]}-#{index+1}" : "#{self.sku}-#{index+1}"
+            :sku => self.generate_variant_sku
           })
         v
       end
     end
+  end
+  
+  def generate_variant_sku
+    self.sku.blank? ? "#{self.name.to_url[0..3]}-#{index+1}" : "#{self.sku}-#{index+1}"
   end
 
   def default_variant
