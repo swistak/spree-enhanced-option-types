@@ -11,14 +11,14 @@ Product.class_eval do
             :product => self,
             :option_values => option_values,
             :is_master => false,
-            :sku => self.generate_variant_sku
+            :sku => self.generate_variant_sku(index)
           })
         v
       end
     end
   end
   
-  def generate_variant_sku
+  def generate_variant_sku index
     self.sku.blank? ? "#{self.name.to_url[0..3]}-#{index+1}" : "#{self.sku}-#{index+1}"
   end
 
