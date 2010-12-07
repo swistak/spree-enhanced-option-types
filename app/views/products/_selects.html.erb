@@ -13,9 +13,10 @@
     <%
 
       select_options = options.map{|o|
-        selected_attribute = " selected='selected'" if o[2]
-        disabled_attribute = " disabled='disabled'" if o[3]
-        %(<option value="#{html_escape(o[1].to_s)}"#{selected_attribute}#{disabled_attribute}>#{html_escape(o[0].to_s)}</option>)
+        unless o[3]
+          selected_attribute = " selected='selected'" if o[2]
+          %(<option value="#{html_escape(o[1].to_s)}"#{selected_attribute}>#{html_escape(o[0].to_s)}</option>)
+        end
       }
     %>
     <%= select_tag("option_values[#{@product.id}][#{option_type.id}]", select_options.join.html_safe, :class=>"option-type" ) %>

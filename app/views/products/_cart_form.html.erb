@@ -14,7 +14,7 @@
 
   <% if @product.has_variants? %>
     <div id="product-variants">
-        <%= render :partial => 'radio_sets', :locals => {:f => f} %>
+        <%= render :partial => 'selects', :locals => {:f => f} %>
     </div>
   <% end%>
   <% if @product.has_stock? || Spree::Config[:allow_backorders] %>
