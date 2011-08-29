@@ -1,4 +1,4 @@
-# Enchanced Option Types
+# Enhanced Option Types
 
 ## Description
 
@@ -42,9 +42,9 @@ You can(and should!) read it.
 
 ## Examples
 
-![Radiobox sets](/swistak/spree-enchanced-option-types/raw/master/doc/sets.jpg)
-![selects sets](/swistak/spree-enchanced-option-types/raw/master/doc/selects.jpg)
-![table](/swistak/spree-enchanced-option-types/raw/master/doc/2d.jpg)
+![Radiobox sets](/swistak/spree-enhanced-option-types/raw/master/doc/sets.jpg)
+![selects sets](/swistak/spree-enhanced-option-types/raw/master/doc/selects.jpg)
+![table](/swistak/spree-enhanced-option-types/raw/master/doc/2d.jpg)
 
 On first example you can see sets of radio boxes and modifiers in action,
 also notable is separation of base price and current(variant) price, only second one is updatable.
@@ -57,10 +57,10 @@ Thrid shows the 2d table for variant choosing.
 ## Instalation
 
 For git users:
-<code>git submodule add git://github.com/swistak/spree-enchanced-option-types.git vendor/extensions/enchanced_option_types</code>
+<code>git submodule add git://github.com/swistak/spree-enhanced-option-types.git vendor/extensions/enhanced_option_types</code>
 
 for others (or git users that don't like submodules):
-<code>ruby script/extension install git://github.com/swistak/spree-enchanced-option-types.git</code>
+<code>ruby script/extension install git://github.com/swistak/spree-enhanced-option-types.git</code>
 
 ## Customization
 
