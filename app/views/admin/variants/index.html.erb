@@ -5,6 +5,13 @@
   :confirm => t(:regenerate_confirm),
   :style => "float: right"
 %>
+<%= button_link_to t(:delete_all),
+  {:action => :delete_all, :product_id => params[:product_id]},
+  :method => :post,
+  :icon => 'exclamation',
+  :confirm => t(:delete_confirm),
+  :style => "float: right"
+%>
 
 <%= render :partial => 'admin/shared/product_sub_menu' %>
 
