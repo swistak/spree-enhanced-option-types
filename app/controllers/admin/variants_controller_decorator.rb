@@ -5,4 +5,11 @@ Admin::VariantsController.class_eval do
     product.do_create_variants(:recreate)
     redirect_to :action => :index, :product_id => params[:product_id]
   end
+
+  def delete_all
+    product = Product.find_by_permalink(params[:product_id])
+    product.variants.delete_all
+    redirect_to :action => :index, :product_id => params[:product_id]
+  end
+
 end
